@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## README
-# /!\ Ce script d'installation est conçu pour mon usage. Ne le lancez pas sans vérifier chaque commande ! /!\
+# /!\ Script d'installation perso. Fortement inspiré de https://github.com/nicolinuxfr/macOS-post-installation /!\
 
 ## La base : Homebrew
 if test ! $(which brew)
@@ -40,50 +40,53 @@ function install () {
 
 ## Installations des logiciels
 echo 'Installation des outils en ligne de commande.'
-brew install wget tldr translate-shell
+brew install wget tldr translate-shell zsh zsh-completions
 
 echo 'Installation des apps : utilitaires.'
-brew cask install atom audiobook-builder calibre coconutbattery firefox gemini iterm2 onyx transmission yacreader git
+brew cask install audiobook-builder calibre coconutbattery gemini onyx yacreader git dropbox
+install "Soulver"
 
-echo "Ouverture de Google Drive pour commencer la synchronisation"
-open -a Google\ Drive
+echo "Ouverture de Dropbox pour commencer la synchronisation"
+open -a dropbox
 
-# Installation manuelle de SearchLink
-# cd /tmp/ && curl -O http://cdn3.brettterpstra.com/downloads/SearchLink2.2.5.zip && unzip SearchLink2.2.5.zip && cd SearchLink2.2.5 && mv SearchLink.workflow ~/Library/Services/
-
-echo 'Installation des apps : video.'
-brew cask install 4k-video-downloader iina makemkv plex-media-server plexamp subler sonarr
+## Installation manuelle de SearchLink
+echo "installation de Tautulli"
+cd /Applications/ && git clone https://github.com/Tautulli/Tautulli.git
+cp /Applications/Tautulli/init-scripts/init.osx ~/Library/LaunchAgents/com.Tautulli.tautulli.plist && launchctl load ~/Library/LaunchAgents/com.Tautulli.tautulli.plist
+cd ~/
 
 echo 'Installation des apps : bureautique.'
 install "Pages"
 install "Keynote"
 install "Numbers"
 install "Bear"
-install "Simplenote"
-brew cask install evernote
+
 
 echo 'Installation des apps : développement.'
-brew install hugo
-brew cask install iterm2 github-desktop textmate tower coda atom wordpresscom transmit bbedit
+brew cask install iterm2 atom ruby
 install "Xcode"
-install "JSON Helper for AppleScript"
-install "Twitter Scripter"
 
+echo "Installation de oh-my-zsh"
+# Installation de oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 echo 'Installation des apps : communication.'
-install "Reeder"
 install "Twitter"
-install "Tweetbot"
 install "1Password"
-brew cask install google-chrome firefox mattermost transmission
+install "Spark"
+brew cask install google-chrome firefox transmission
+# Installation de Miyano
+gem install miyano
 
 
 echo 'Installation des apps : photo et vidéo.'
 brew cask install handbrake 4k-video-downloader iina makemkv plex-media-server plexamp subler sonarr
-install "Acorn"
 install "Pixelmator"
 
 echo 'Installation des apps : loisir.'
+install "Chroma"
+wget http://storage.lunii.fr/public/deploy/Luniitheque-1.9.pkg
+sudo installer -pkg Luniitheque-1.9.pkg -target /
 
 ## ************************* CONFIGURATION ********************************
 echo "Configuration de quelques paramètres par défaut…"
@@ -127,8 +130,8 @@ defaults write com.apple.dock largesize -float 128
 defaults write com.apple.dock mru-spaces -bool false
 
 # Mot de passe demandé immédiatement quand l'économiseur d'écran s'active
-defaults write com.apple.screensaver askForPassword -int 1
-defaults write com.apple.screensaver askForPasswordDelay -int 0
+# defaults write com.apple.screensaver askForPassword -int 1
+# defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 ## COINS ACTIFS
 # En haut à gauche : bureau
@@ -150,7 +153,7 @@ defaults write com.apple.dock wvous-br-modifier -int 0
 sudo defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 # Arrêt pop-up clavier façon iOS
-sudo defaults write -g ApplePressAndHoldEnabled -bool false
+# sudo defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Répétition touches plus rapide
 sudo defaults write NSGlobalDomain KeyRepeat -int 1
@@ -181,7 +184,7 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool YES
 defaults write com.apple.TextEdit RichText -int 0
 
 # Raccourci pour exporter
-sudo defaults write -g NSUserKeyEquivalents '{"Export…"="@$e";"Exporter…"="@$e";}'
+# sudo defaults write -g NSUserKeyEquivalents '{"Export…"="@$e";"Exporter…"="@$e";}'
 
 ## ************ Fin de l'installation *********
 echo "Finder et Dock relancés… redémarrage nécessaire pour terminer."
