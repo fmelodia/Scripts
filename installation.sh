@@ -92,7 +92,7 @@ sudo installer -pkg Luniitheque-1.9.pkg -target /
 echo "Configuration de quelques paramètres par défaut…"
 
 echo "Utilisation de ZSH"
-
+chsh -s /bin/zsh
 
 ## FINDER
 
