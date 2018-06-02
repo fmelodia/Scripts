@@ -91,6 +91,9 @@ sudo installer -pkg Luniitheque-1.9.pkg -target /
 ## ************************* CONFIGURATION ********************************
 echo "Configuration de quelques paramètres par défaut…"
 
+echo "Utilisation de ZSH"
+
+
 ## FINDER
 
 # Affichage de la bibliothèque
@@ -195,5 +198,4 @@ echo "Derniers nettoyages…"
 brew cleanup
 rm -f -r /Library/Caches/Homebrew/*
 
-echo "ET VOILÀ !"
-echo "Après synchronisation des données cloud, lancer le script post-cloud.sh"
+echo "ET VOILÀ !""
